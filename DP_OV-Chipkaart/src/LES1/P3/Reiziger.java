@@ -52,6 +52,8 @@ public class Reiziger {
 
     @Override
     public String toString() {
-        return "Reiziger: " + "id: " + id + ", voorletters: '" + voorletters + '\'' + ", tussenvoegsels: '" + tussenvoegsels + '\'' + ", achternaam: '" + achternaam + '\'' + ", geboortedatum: " + geboortedatum;
+        return "Reiziger: " + "id: " + id + ", voorletters: '" + voorletters + '\'' +
+                ", tussenvoegsels: '" + tussenvoegsels + '\'' + ", achternaam: '" +
+                achternaam + '\'' + ", geboortedatum: " + geboortedatum + ", " + adres;
     }
 }

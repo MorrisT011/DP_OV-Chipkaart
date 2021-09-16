@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         getConnection();
-        ReizigerDAO reizigerDAO = new ReizigerDAOPsql(connection);
+        ReizigerDAO reizigerDAO = new ReizigerDAOPsql(connection, new AdresDAOsql(connection));
         AdresDAO adresDAO = new AdresDAOsql(connection);
         testReizigerDAO(reizigerDAO);
         testAdresDao(adresDAO);
@@ -47,6 +47,7 @@ public class Main {
         // Maak een nieuwe reiziger aan en persisteer deze in de database
         String gbdatum = "1981-03-14";
         Reiziger sietske = new Reiziger(77, "S", "", "Boers", java.sql.Date.valueOf(gbdatum));
+        sietske.setAdres(new Adres(22, "3512PA", "5", "Lange nieuwstraat", "Utrecht", 77));
         System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.save() ");
         rdao.save(sietske);
         reizigers = rdao.findAll();
@@ -83,7 +84,6 @@ public class Main {
             System.out.println(a);
         }
 
-
         // Delete een adres
         System.out.print("\n[Test] Eerst " + adressen.size() + " reizigers, na AdresDAO.delete() ");
         Adres test = new Adres(4, "3817CH", "4", "Arnhemseweg", "Amersfoort", 4);
@@ -105,7 +105,4 @@ public class Main {
         System.out.println(adao.findByReiziger(blank));
     }
 
-    private static void testAdresDAO() throws SQLException{
-
-    }
 }

@@ -13,6 +13,15 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         this.conn = conn;
     }
 
+    public ReizigerDAOPsql(Connection conn, AdresDAOsql adaosql){
+        this.conn = conn;
+        this.adao = adaosql;
+    }
+
+    public void setAdao(AdresDAO adao) {
+        this.adao = adao;
+    }
+
     @Override
     public boolean save(Reiziger reiziger) {
 
@@ -36,6 +45,8 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             prestat.setDate(5, reiziger.getGeboortedatum());
 
             prestat.executeUpdate();
+
+            adao.save(reiziger.getAdres());
             return true;
 
         } catch (SQLException throwables) {
@@ -57,6 +68,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
 
             prestat.executeUpdate();
 
+            adao.update(reiziger.getAdres());
             return true;
 
         } catch (SQLException throwables) {
@@ -75,7 +87,9 @@ public class ReizigerDAOPsql implements ReizigerDAO {
 
             prestat.setInt(1, reiziger.getId());
 
+            adao.delete(reiziger.getAdres());
             prestat.executeUpdate();
+
 
             return true;
 
@@ -103,7 +117,11 @@ public class ReizigerDAOPsql implements ReizigerDAO {
                 String tussenvoegsel = rs.getString("tussenvoegsel");
                 String achternaam = rs.getString("achternaam");
                 Date geboortedatum = rs.getDate("geboortedatum");
-                return new Reiziger(rid, voorletters, tussenvoegsel, achternaam, geboortedatum);
+
+                Reiziger brent = new Reiziger(rid, voorletters, tussenvoegsel, achternaam, geboortedatum);
+                brent.setAdres(adao.findByReiziger(brent));
+
+                return  brent;
             }
 
         } catch (SQLException throwables) {
@@ -133,6 +151,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
                 Date geboortedatum = rs.getDate("geboortedatum");
 
                 Reiziger brent = new Reiziger(rid, voorletters, tussenvoegsel, achternaam, geboortedatum);
+                brent.setAdres(adao.findByReiziger(brent));
                 reizigers2.add(brent);
             }
             return reizigers2;
@@ -162,6 +181,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
                 Date geboortedatum = rs.getDate("geboortedatum");
 
                 Reiziger brent = new Reiziger(rid, voorletters, tussenvoegsel, achternaam, geboortedatum);
+                brent.setAdres(adao.findByReiziger(brent));
                 reizigers.add(brent);
             }
 
