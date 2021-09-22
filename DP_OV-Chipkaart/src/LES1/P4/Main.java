@@ -11,9 +11,11 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         getConnection();
-        ReizigerDAO reizigerDAO = new ReizigerDAOPsql(connection, new AdresDAOsql(connection), new OVChipkaartDAOPsql(connection));
-        AdresDAO adresDAO = new AdresDAOsql(connection);
-        OVChipkaartDAO ovchipDAO = new OVChipkaartDAOPsql(connection);
+        ReizigerDAOPsql reizigerDAO = new ReizigerDAOPsql(connection);
+        AdresDAOsql adresDAO = new AdresDAOsql(connection);
+        OVChipkaartDAOPsql ovchipDAO = new OVChipkaartDAOPsql(connection);
+        reizigerDAO.setAdao(adresDAO);
+        reizigerDAO.setOvcdao(ovchipDAO);
         testReizigerDAO(reizigerDAO);
         testAdresDao(adresDAO);
         closeConnection();

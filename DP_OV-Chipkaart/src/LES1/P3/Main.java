@@ -11,8 +11,9 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         getConnection();
-        ReizigerDAO reizigerDAO = new ReizigerDAOPsql(connection, new AdresDAOsql(connection));
-        AdresDAO adresDAO = new AdresDAOsql(connection);
+        ReizigerDAOPsql reizigerDAO = new ReizigerDAOPsql(connection);
+        AdresDAOsql adresDAO = new AdresDAOsql(connection);
+        reizigerDAO.setAdao(adresDAO);
         testReizigerDAO(reizigerDAO);
         testAdresDao(adresDAO);
         closeConnection();
